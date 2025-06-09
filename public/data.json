@@ -1,0 +1,56 @@
+{
+  "collegeName": "Amal College",
+  "description": "AMAL COLLEGE OF ADVANCED STUDIES (AUTONOMOUS) Myladi, Eranhimangad Po, Nilambur, Kerala, India – 679329Aided by Govt. of Kerala | Affiliated to the University of CalicutNAAC Re-accredited with A++ Grade | Run by Nilambur Muslim Orphanage Committee",
+  "backgroundImage": "/images/campus-bg.jpg",
+  "announcements": [
+    "Admission open for 2025-26!",
+    "Annual fest on June 15, 2025",
+    "New AI and Data Science courses introduced"
+  ],
+  "profiles": [
+    { "name": "Prof. (Dr.) Mohamed Basheer KP", "designation": "Principal", "image": "/images/principal.jpg" },
+    { "name": "PV Ali Mubarak", "designation": "Manager", "image": "/images/manager.webp" },
+    { "name": "PV Abdul Wahab MP", "designation": "Chairman", "image": "/images/chairman.webp" }
+  ],
+  "highlights": [
+    { "title": "Academic Excellence", "description": "Top ranks in national exams" },
+    { "title": "Research Innovation", "description": "Cutting-edge labs and projects" },
+    { "title": "Sports Achievements", "description": "Champions in inter-college tournaments" },
+    { "title": "Cultural Events", "description": "Vibrant festivals and activities" }
+  ],
+  "departments": [
+    { "name": "Computer Science", "image": "/images/cs.jpg", "color": "bg-blue-500" },
+    { "name": "Mechanical Engineering", "image": "/images/me.jpg", "color": "bg-red-500" },
+    { "name": "Biotechnology", "image": "/images/bt.jpg", "color": "bg-green-500" },
+    { "name": "Civil Engineering", "image": "/images/ce.jpg", "color": "bg-yellow-500" }
+  ],
+  "partners": [
+    "/images/partners/partner1.webp",
+     "/images/partners/partner2.webp",
+    "/images/partners/partner3.webp",
+    "/images/partners/partner4.webp",
+
+    "/images/partners/partner5.webp",
+        "/images/partners/partner6.png",
+            "/images/partners/partner7.webp",
+    "/images/partners/partner8.webp",
+    "/images/partners/partner9.webp",
+    "/images/partners/partner10.webp"
+
+
+  ],
+  "footer": {
+    "logo": "/images/logo.png",
+    "address": "123 College Road, City, Country",
+    "quickLinks": ["About Us", "Academics", "Campus Life"],
+    "departments": ["Computer Science", "Mechanical Engineering", "Biotechnology"],
+    "contact": "contact@amalcollege.edu",
+    "location": "https://maps.google.com",
+    "socialMedia": {
+      "facebook": "https://facebook.com/amalcollege",
+      "twitter": "https://twitter.com/amalcollege",
+      "instagram": "https://instagram.com/amalcollege"
+    },
+    "youtubeVideo": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  }
+}
