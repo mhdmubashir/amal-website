@@ -19,6 +19,7 @@ export default function Home() {
           <li>Aslam</li>
           <li>Farhan</li>
           <li>Abinand</li>
+          <br />
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
