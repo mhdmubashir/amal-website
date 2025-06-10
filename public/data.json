@@ -20,9 +20,19 @@
   ],
   "departments": [
     { "name": "Computer Science", "image": "/images/cs.jpg", "color": "bg-blue-500" },
-    { "name": "Mechanical Engineering", "image": "/images/me.jpg", "color": "bg-red-500" },
-    { "name": "Biotechnology", "image": "/images/bt.jpg", "color": "bg-green-500" },
-    { "name": "Civil Engineering", "image": "/images/ce.jpg", "color": "bg-yellow-500" }
+    { "name": "English", "image": "/images/me.jpg", "color": "bg-red-500" },
+    { "name": "Commerce", "image": "/images/bt.jpg", "color": "bg-green-500" },
+    { "name": "Management", "image": "/images/ce.jpg", "color": "bg-yellow-500" },
+        { "name": "Tourism & Hotel Management", "image": "/images/ce.jpg", "color": "bg-blue-500" },
+    { "name": "Economics", "image": "/images/ce.jpg", "color": "bg-red-500" },
+    { "name": "Psychology", "image": "/images/ce.jpg", "color": "bg-green-500" },
+        { "name": "Mathematics and Physics", "image": "/images/ce.jpg", "color": "bg-yellow-500" },
+            { "name": "Physical Education", "image": "/images/ce.jpg", "color": "bg-blue-500" },
+                { "name": "Languages", "image": "/images/ce.jpg", "color": "bg-red-500" }
+
+
+
+
   ],
   "partners": [
     "/images/partners/partner1.webp",
@@ -41,7 +51,7 @@
   ],
   "footer": {
     "logo": "/images/logo.png",
-    "address": "123 College Road, City, Country",
+    "address": "Amal College of Advanced Studies Myladi, Eranhimangad Post .Nilambur, Kerala – 679329",
     "quickLinks": ["About Us", "Academics", "Campus Life"],
     "departments": ["Computer Science", "Mechanical Engineering", "Biotechnology"],
     "contact": "contact@amalcollege.edu",
