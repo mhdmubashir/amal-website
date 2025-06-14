@@ -41,3 +41,12 @@ export interface CollegeData {
   partners: string[];
   footer: FooterData;
 }
+
+export interface EventData {
+  id?: string;
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+  location: string;
+}

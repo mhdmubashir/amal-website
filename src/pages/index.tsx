@@ -7,16 +7,30 @@ import DepartmentCard from '../components/DepartmentCard';
 import Footer from '../components/Footer';
 import { useTheme } from '../context/ThemeContext';
 import { CollegeData } from '../types';
+import { EventData } from "../types";
+import EventCard from '../components/EventCard';
+import { eventService } from '../services/event/event_service';
+
 
 const Home: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [data, setData] = useState<CollegeData | null>(null);
+  const [events, setEvents] = useState<EventData[]>([]);
+  const [eventsLoading, setEventsLoading] = useState(true);
+  const [eventsError, setEventsError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/data.json')
       .then((res) => res.json())
       .then((json) => setData(json))
       .catch((err) => console.error('Error fetching data:', err));
+  }, []);
+
+  useEffect(() => {
+    eventService.getEvents({ limit: 6 })
+      .then(setEvents)
+      .catch(() => setEventsError('Failed to load events.'))
+      .finally(() => setEventsLoading(false));
   }, []);
 
   if (!data) return <div>Loading...</div>;
@@ -72,6 +86,27 @@ const Home: React.FC = () => {
             <button className={`${theme.button} px-6 py-2 rounded-md text-white`}>View All</button>
           </div>
         )}
+      </section>
+
+      {/* Events Section */}
+      <section className="relative py-16 px-6 bg-gradient-to-br from-blue-50 to-blue-200">
+        <div className="absolute inset-0 pointer-events-none bg-[url('/images/campus-bg.jpg')] opacity-10 bg-cover bg-center" />
+        <div className="relative max-w-6xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-center text-blue-900 mb-10 drop-shadow-lg">Upcoming Events</h2>
+          {eventsLoading ? (
+            <div className="text-center text-lg text-blue-700">Loading events...</div>
+          ) : eventsError ? (
+            <div className="text-center text-red-600">{eventsError}</div>
+          ) : events.length === 0 ? (
+            <div className="text-center text-gray-500">No events found.</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {events.map(event => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Departments Section */}

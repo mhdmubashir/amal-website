@@ -71,12 +71,13 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
       </div>
 
       {/* Overlay (dark background outside drawer) */}
-      {drawerOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-10"
-          onClick={() => setDrawerOpen(false)}
-        />
-      )}
+     {drawerOpen && (
+  <div
+    className="fixed inset-0 backdrop-blur-sm bg-black/5 z-1"
+    onClick={() => setDrawerOpen(false)}
+  />
+)}
+
     </header>
   );
 };
