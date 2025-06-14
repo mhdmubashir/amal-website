@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
 
   return (
     <header className={`sticky top-0 z-20 ${theme.background} shadow-md py-4 px-6 flex justify-between items-center`}>
-      {/* Logo & Name */}
+      {/* Logo & Nam*/}
       <div className="flex items-center space-x-4">
         <img src={logo} alt="College Logo" className="h-10" />
         <h1 className={`text-xl sm:text-2xl font-bold ${theme.text}`}>{collegeName}</h1>
