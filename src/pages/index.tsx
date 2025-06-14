@@ -11,6 +11,7 @@ import { CollegeData } from '../types';
 import { EventData } from "../types";
 import EventCard from '../components/EventCard';
 import { eventService } from '../services/event/event_service';
+import CustomLoader from 'components/CustomLoader';
 
 
 const Home: React.FC = () => {
@@ -34,7 +35,7 @@ const Home: React.FC = () => {
       .finally(() => setEventsLoading(false));
   }, []);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <CustomLoader/>;
 
   return (
     <>
