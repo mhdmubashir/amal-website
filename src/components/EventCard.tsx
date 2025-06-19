@@ -10,7 +10,7 @@ interface EventCardProps {
 const EventCard: React.FC<EventCardProps> = ({ event }) => (
   <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col hover:scale-105 transition-transform duration-200">
     <img
-      src={event.image || fallbackImage}
+      src={event.imageUrl || fallbackImage}
       alt={event.title}
       className="w-full h-48 object-cover"
       onError={e => (e.currentTarget.src = fallbackImage)}

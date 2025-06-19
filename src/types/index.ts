@@ -47,6 +47,6 @@ export interface EventData {
   title: string;
   description: string;
   date: string;
-  image: string;
+  imageUrl: string;
   location: string;
 }
