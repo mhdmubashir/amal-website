@@ -2,6 +2,7 @@ import React from "react";
 import { EventData } from "../types";
 
 const fallbackImage = "/images/logo.png";
+const API_URL = "http://amal-college-api.onrender.com";
 
 interface EventCardProps {
   event: EventData;
@@ -10,7 +11,7 @@ interface EventCardProps {
 const EventCard: React.FC<EventCardProps> = ({ event }) => (
   <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col hover:scale-105 transition-transform duration-200">
     <img
-      src={event.imageUrl || fallbackImage}
+      src={API_URL + event.imageUrl || fallbackImage}
       alt={event.title}
       className="w-full h-48 object-cover"
       onError={e => (e.currentTarget.src = fallbackImage)}
