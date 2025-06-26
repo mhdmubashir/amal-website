@@ -92,7 +92,7 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Highlights Section */}
+        {/* Highlights Section
         <section className={`${theme.gradient} py-12 px-6`}>
           <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Highlights of {data.collegeName}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -105,6 +105,32 @@ const Home: React.FC = () => {
               <button className={`${theme.button} px-6 py-2 rounded-md text-white`}>View All</button>
             </div>
           )}
+        </section> */}
+
+        {/* Events Section */}
+        <section className="relative py-16 px-6 bg-gradient-to-br from-blue-50 to-blue-200">
+          <div className="absolute inset-0 pointer-events-none bg-[url('/images/campus-bg.jpg')] opacity-10 bg-cover bg-center" />
+          <div className="relative max-w-6xl mx-auto">
+            <h2 className="text-4xl font-extrabold text-center text-blue-900 mb-10 drop-shadow-lg">Upcoming Events</h2>
+            {eventsLoading ? (
+              <div className="text-center text-lg text-blue-700">Loading events...</div>
+            ) : eventsError ? (
+              <div className="text-center text-red-600">{eventsError}</div>
+            ) : events.length === 0 ? (
+              <div className="text-center text-gray-500">No events found.</div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                  {events.slice(0, 3).map(event => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+                <div className="text-center mt-6">
+                  <a href="/events" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
+                </div>
+              </>
+            )}
+          </div>
         </section>
 
         {/* Staff Achievements Section */}
@@ -143,32 +169,6 @@ const Home: React.FC = () => {
               </div>
             </>
           )}
-        </section>
-
-        {/* Events Section */}
-        <section className="relative py-16 px-6 bg-gradient-to-br from-blue-50 to-blue-200">
-          <div className="absolute inset-0 pointer-events-none bg-[url('/images/campus-bg.jpg')] opacity-10 bg-cover bg-center" />
-          <div className="relative max-w-6xl mx-auto">
-            <h2 className="text-4xl font-extrabold text-center text-blue-900 mb-10 drop-shadow-lg">Upcoming Events</h2>
-            {eventsLoading ? (
-              <div className="text-center text-lg text-blue-700">Loading events...</div>
-            ) : eventsError ? (
-              <div className="text-center text-red-600">{eventsError}</div>
-            ) : events.length === 0 ? (
-              <div className="text-center text-gray-500">No events found.</div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                  {events.slice(0, 3).map(event => (
-                    <EventCard key={event.id} event={event} />
-                  ))}
-                </div>
-                <div className="text-center mt-6">
-                  <a href="/events" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
-                </div>
-              </>
-            )}
-          </div>
         </section>
 
         {/* Departments Section */}
