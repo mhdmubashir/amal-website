@@ -47,6 +47,7 @@ export interface EventData {
   title: string;
   description: string;
   date: string;
+  createdAt: string;
   imageUrl: string;
   location: string;
 }
@@ -57,6 +58,8 @@ export interface StaffAchievement {
   staffName: string;
   designation: string;
   department: string;
+  createdAt: string;
+
   description: string;
   imageUrl: string;
 }
@@ -65,6 +68,8 @@ export interface StudentAchievement {
   id: string;
   title: string;
   description: string;
+  createdAt: string;
+
   date: string;
   imageUrl: string;
 }

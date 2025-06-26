@@ -1,4 +1,5 @@
 import React from "react";
+import { apiBaseForImage } from "services/const_service";
 import { StaffAchievement } from "../types";
 
 interface StaffAchievementCardProps {
@@ -12,7 +13,7 @@ const StaffAchievementCard: React.FC<StaffAchievementCardProps> = ({ achievement
         onClick={onClick}
     >
         <img
-            src={achievement.imageUrl}
+            src={apiBaseForImage + achievement.imageUrl}
             alt={achievement.title}
             className="w-full h-48 object-cover"
             onError={e => (e.currentTarget.src = "/images/logo.png")}
