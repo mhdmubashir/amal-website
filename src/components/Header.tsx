@@ -1,6 +1,6 @@
+import { Bars3Icon, MoonIcon, SunIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 import { Theme, themes } from '../styles/theme';
-import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 
 interface HeaderProps {
   theme: Theme;
@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
       {/* Logo & Nam*/}
       <div className="flex items-center space-x-4">
         <img src={logo} alt="College Logo" className="h-10" />
-        <h1 className={`text-xl sm:text-2xl font-bold ${theme.text}`}>{collegeName}</h1>
+        {/* <h1 className={`text-xl sm:text-2xl font-bold ${theme.text}`}></h1> */}
       </div>
 
       {/* Desktop Navigation */}
@@ -41,9 +41,8 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
 
       {/* Mobile Drawer */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-full w-2/3 max-w-xs shadow-lg z-30 transform transition-transform duration-300 ease-in-out ${
-          drawerOpen ? 'translate-x-0' : 'translate-x-full'
-        } ${theme.background}`}
+        className={`md:hidden fixed top-0 right-0 h-full w-2/3 max-w-xs shadow-lg z-30 transform transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'
+          } ${theme.background}`}
       >
         <div className="flex flex-col p-6 space-y-5">
           <a
@@ -71,12 +70,12 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
       </div>
 
       {/* Overlay (dark background outside drawer) */}
-     {drawerOpen && (
-  <div
-    className="fixed inset-0 backdrop-blur-sm bg-black/5 z-1"
-    onClick={() => setDrawerOpen(false)}
-  />
-)}
+      {drawerOpen && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-black/5 z-1"
+          onClick={() => setDrawerOpen(false)}
+        />
+      )}
 
     </header>
   );
