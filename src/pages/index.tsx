@@ -5,7 +5,6 @@ import DepartmentCard from '../components/DepartmentCard';
 import EventCard from '../components/EventCard';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import HighlightCard from '../components/HighlightCard';
 import ProfileCard from '../components/ProfileCard';
 import StaffAchievementCard from '../components/StaffAchievementCard';
 import StudentAchievementCard from '../components/StudentAchievementCard';
@@ -78,11 +77,14 @@ const Home: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto">
             <div className="md:w-1/2">
               <p className={`${theme.text} mb-4`}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <p className={`${theme.text}`}>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+                An institution founded on the vision of educational equity, empowerment, and excellence.
+
+                Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans  a testament to our enduring mission to uplift the lives of those who need it the most.
+
+                We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student  especially those from disadvantaged backgrounds  to dream beyond limitations and rise above socio-economic barriers.
+                In a region where access to quality higher education remains a challenge for many, we are committed to reversing this trend by providing meaningful opportunities for growth, innovation, and self-realization. Our campus is more than a space for academic pursuit  it is a place where learning transcends classrooms and education becomes a tool for social change.
+                Let us join hands in building a future where no dream is too distant, and no student is left behind. Welcome to Amal College  where education is driven by compassion, guided by values, and inspired by the hope of a better tomorrow.              </p>
+
             </div>
             <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {data.profiles.map((profile, index) => (
