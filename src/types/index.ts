@@ -50,3 +50,21 @@ export interface EventData {
   imageUrl: string;
   location: string;
 }
+
+export interface StaffAchievement {
+  id: string;
+  title: string;
+  staffName: string;
+  designation: string;
+  department: string;
+  description: string;
+  imageUrl: string;
+}
+
+export interface StudentAchievement {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  imageUrl: string;
+}

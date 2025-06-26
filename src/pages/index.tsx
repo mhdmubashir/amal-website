@@ -12,6 +12,10 @@ import { EventData } from "../types";
 import EventCard from '../components/EventCard';
 import { eventService } from '../services/event/event_service';
 import CustomLoader from 'components/CustomLoader';
+import { staffAchievementService } from '../services/staff-achievement/staffAchievement_service';
+import { studentAchievementService } from '../services/student-achievement/studentAchievement_service';
+import StaffAchievementCard from '../components/StaffAchievementCard';
+import StudentAchievementCard from '../components/StudentAchievementCard';
 
 
 const Home: React.FC = () => {
@@ -20,6 +24,10 @@ const Home: React.FC = () => {
   const [events, setEvents] = useState<EventData[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [eventsError, setEventsError] = useState<string | null>(null);
+  const [staffAchievements, setStaffAchievements] = useState([]);
+  const [studentAchievements, setStudentAchievements] = useState([]);
+  const [staffLoading, setStaffLoading] = useState(true);
+  const [studentLoading, setStudentLoading] = useState(true);
 
   useEffect(() => {
     fetch('/data.json')
@@ -33,6 +41,15 @@ const Home: React.FC = () => {
       .then(setEvents)
       .catch(() => setEventsError('Failed to load events.'))
       .finally(() => setEventsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    staffAchievementService.getStaffAchievements({ limit: 4 })
+      .then(setStaffAchievements)
+      .finally(() => setStaffLoading(false));
+    studentAchievementService.getStudentAchievements({ limit: 4 })
+      .then(setStudentAchievements)
+      .finally(() => setStudentLoading(false));
   }, []);
 
   if (!data) return <CustomLoader/>;
@@ -92,6 +109,44 @@ const Home: React.FC = () => {
           )}
         </section>
 
+        {/* Staff Achievements Section */}
+        <section className="py-12 px-6">
+          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Staff Achievements</h2>
+          {staffLoading ? (
+            <div className="text-center text-lg text-blue-700">Loading...</div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                {staffAchievements.slice(0, 4).map((item, idx) => (
+                  <StaffAchievementCard key={item.id} achievement={item} />
+                ))}
+              </div>
+              <div className="text-center mt-6">
+                <a href="/staff-achievements" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
+              </div>
+            </>
+          )}
+        </section>
+
+        {/* Student Achievements Section */}
+        <section className="py-12 px-6">
+          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Student Achievements</h2>
+          {studentLoading ? (
+            <div className="text-center text-lg text-blue-700">Loading...</div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                {studentAchievements.slice(0, 4).map((item, idx) => (
+                  <StudentAchievementCard key={item.id} achievement={item} />
+                ))}
+              </div>
+              <div className="text-center mt-6">
+                <a href="/student-achievements" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
+              </div>
+            </>
+          )}
+        </section>
+
         {/* Events Section */}
         <section className="relative py-16 px-6 bg-gradient-to-br from-blue-50 to-blue-200">
           <div className="absolute inset-0 pointer-events-none bg-[url('/images/campus-bg.jpg')] opacity-10 bg-cover bg-center" />
@@ -104,11 +159,16 @@ const Home: React.FC = () => {
             ) : events.length === 0 ? (
               <div className="text-center text-gray-500">No events found.</div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                {events.map(event => (
-                  <EventCard key={event.id} event={event} />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                  {events.slice(0, 3).map(event => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+                <div className="text-center mt-6">
+                  <a href="/events" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
+                </div>
+              </>
             )}
           </div>
         </section>
