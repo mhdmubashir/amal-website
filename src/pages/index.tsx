@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
-import Header from '../components/Header';
-import AnnouncementSlider from '../components/AnnouncementSlider';
-import ProfileCard from '../components/ProfileCard';
-import HighlightCard from '../components/HighlightCard';
-import DepartmentCard from '../components/DepartmentCard';
-import Footer from '../components/Footer';
-import { useTheme } from '../context/ThemeContext';
-import { CollegeData } from '../types';
-import { EventData } from "../types";
-import EventCard from '../components/EventCard';
-import { eventService } from '../services/event/event_service';
 import CustomLoader from 'components/CustomLoader';
-import { staffAchievementService } from '../services/staff-achievement/staffAchievement_service';
-import { studentAchievementService } from '../services/student-achievement/studentAchievement_service';
+import React, { useEffect, useState } from 'react';
+import AnnouncementSlider from '../components/AnnouncementSlider';
+import DepartmentCard from '../components/DepartmentCard';
+import EventCard from '../components/EventCard';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import HighlightCard from '../components/HighlightCard';
+import ProfileCard from '../components/ProfileCard';
 import StaffAchievementCard from '../components/StaffAchievementCard';
 import StudentAchievementCard from '../components/StudentAchievementCard';
+import { useTheme } from '../context/ThemeContext';
+import { eventService } from '../services/event/event_service';
+import { staffAchievementService } from '../services/staff-achievement/staffAchievement_service';
+import { studentAchievementService } from '../services/student-achievement/studentAchievement_service';
+import { CollegeData, EventData, StaffAchievement, StudentAchievement } from '../types';
 
 
 const Home: React.FC = () => {
@@ -24,8 +22,8 @@ const Home: React.FC = () => {
   const [events, setEvents] = useState<EventData[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [eventsError, setEventsError] = useState<string | null>(null);
-  const [staffAchievements, setStaffAchievements] = useState([]);
-  const [studentAchievements, setStudentAchievements] = useState([]);
+  const [staffAchievements, setStaffAchievements] = useState<StaffAchievement[]>([]);
+  const [studentAchievements, setStudentAchievements] = useState<StudentAchievement[]>([]);
   const [staffLoading, setStaffLoading] = useState(true);
   const [studentLoading, setStudentLoading] = useState(true);
 
@@ -52,14 +50,14 @@ const Home: React.FC = () => {
       .finally(() => setStudentLoading(false));
   }, []);
 
-  if (!data) return <CustomLoader/>;
+  if (!data) return <CustomLoader />;
 
   return (
     <>
-     
+
       <div className={`${theme.background} min-h-screen`}>
         <Header theme={theme} toggleTheme={toggleTheme} collegeName={data.collegeName} logo={data.footer.logo} />
-        
+
         {/* Hero Section */}
         <section
           className="relative h-96 flex items-center justify-center bg-cover bg-center"
