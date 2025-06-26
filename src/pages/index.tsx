@@ -14,7 +14,6 @@ import { staffAchievementService } from '../services/staff-achievement/staffAchi
 import { studentAchievementService } from '../services/student-achievement/studentAchievement_service';
 import { CollegeData, EventData, StaffAchievement, StudentAchievement } from '../types';
 
-
 const Home: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [data, setData] = useState<CollegeData | null>(null);
@@ -53,38 +52,46 @@ const Home: React.FC = () => {
 
   return (
     <>
-
       <div className={`${theme.background} min-h-screen`}>
         <Header theme={theme} toggleTheme={toggleTheme} collegeName={data.collegeName} logo={data.footer.logo} />
 
         {/* Hero Section */}
         <section
-          className="relative h-96 flex items-center justify-center bg-cover bg-center"
+          className="relative h-[60vh] flex items-center justify-center bg-cover bg-center"
           style={{ backgroundImage: `url(${data.backgroundImage})` }}
         >
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div className="relative text-center text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{data.collegeName}</h1>
-            <p className="text-lg md:text-xl max-w-2xl mx-auto">{data.description}</p>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-transparent"></div>
+          <div className="relative z-10 text-center text-white px-4">
+            <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg tracking-tight">{data.collegeName}</h1>
+            <p className="text-lg md:text-2xl max-w-2xl mx-auto mb-8 font-light">{data.description}</p>
+            <a
+              href="#about"
+              className="inline-block px-8 py-3 bg-green-600 hover:bg-green-700 rounded-full text-lg font-semibold shadow-lg transition"
+            >
+              Discover More
+            </a>
           </div>
         </section>
 
-        <AnnouncementSlider theme={theme} announcements={data.announcements} />
+        {/* Announcements */}
+        <div className="shadow-md">
+          <AnnouncementSlider theme={theme} announcements={data.announcements} />
+        </div>
 
         {/* Welcome Section */}
-        <section className="py-12 px-6">
-          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Welcome to {data.collegeName}</h2>
-          <div className="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto">
-            <div className="md:w-1/2">
-              <p className={`${theme.text} mb-4`}>
+        <section id="about" className="py-20 px-4 bg-white">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl font-bold mb-6 text-gray-900">Welcome to {data.collegeName}</h2>
+              <p className="text-lg text-gray-700 mb-4 leading-relaxed">
                 An institution founded on the vision of educational equity, empowerment, and excellence.
-                Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans  a testament to our enduring mission to uplift the lives of those who need it the most.
-                We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student  especially those from disadvantaged backgrounds  to dream beyond limitations and rise above socio-economic barriers.
-                In a region where access to quality higher education remains a challenge for many, we are committed to reversing this trend by providing meaningful opportunities for growth, innovation, and self-realization. Our campus is more than a space for academic pursuit  it is a place where learning transcends classrooms and education becomes a tool for social change.
-                Let us join hands in building a future where no dream is too distant, and no student is left behind. Welcome to Amal College  where education is driven by compassion, guided by values, and inspired by the hope of a better tomorrow.              </p>
-
+                Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans—a testament to our enduring mission to uplift the lives of those who need it the most.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student—especially those from disadvantaged backgrounds—to dream beyond limitations and rise above socio-economic barriers.
+              </p>
             </div>
-            <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               {data.profiles.map((profile, index) => (
                 <ProfileCard key={index} profile={profile} theme={theme} />
               ))}
@@ -92,26 +99,10 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Highlights Section
-        <section className={`${theme.gradient} py-12 px-6`}>
-          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Highlights of {data.collegeName}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {data.highlights.slice(0, 3).map((highlight, index) => (
-              <HighlightCard key={index} highlight={highlight} theme={theme} />
-            ))}
-          </div>
-          {data.highlights.length > 3 && (
-            <div className="text-center mt-6">
-              <button className={`${theme.button} px-6 py-2 rounded-md text-white`}>View All</button>
-            </div>
-          )}
-        </section> */}
-
         {/* Events Section */}
-        <section className="relative py-16 px-6 bg-gradient-to-br from-blue-50 to-blue-200">
-          <div className="absolute inset-0 pointer-events-none bg-[url('/images/campus-bg.jpg')] opacity-10 bg-cover bg-center" />
-          <div className="relative max-w-6xl mx-auto">
-            <h2 className="text-4xl font-extrabold text-center text-blue-900 mb-10 drop-shadow-lg">Upcoming Events</h2>
+        <section className="relative py-20 px-4 bg-gradient-to-br from-blue-50 to-blue-100">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center text-blue-900 mb-12">Upcoming Events</h2>
             {eventsLoading ? (
               <div className="text-center text-lg text-blue-700">Loading events...</div>
             ) : eventsError ? (
@@ -120,13 +111,13 @@ const Home: React.FC = () => {
               <div className="text-center text-gray-500">No events found.</div>
             ) : (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
                   {events.slice(0, 3).map(event => (
                     <EventCard key={event.id} event={event} />
                   ))}
                 </div>
-                <div className="text-center mt-6">
-                  <a href="/events" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
+                <div className="text-center mt-8">
+                  <a href="/events" className="inline-block px-8 py-3 bg-blue-700 hover:bg-blue-800 rounded-full text-white font-semibold shadow-lg transition">Show All Events</a>
                 </div>
               </>
             )}
@@ -134,60 +125,68 @@ const Home: React.FC = () => {
         </section>
 
         {/* Staff Achievements Section */}
-        <section className="py-12 px-6">
-          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Staff Achievements</h2>
-          {staffLoading ? (
-            <div className="text-center text-lg text-blue-700">Loading...</div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-                {staffAchievements.slice(0, 4).map((item, idx) => (
-                  <StaffAchievementCard key={item.id} achievement={item} />
-                ))}
-              </div>
-              <div className="text-center mt-6">
-                <a href="/staff-achievements" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
-              </div>
-            </>
-          )}
+        <section className="py-20 px-4 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center text-green-800 mb-12">Staff Achievements</h2>
+            {staffLoading ? (
+              <div className="text-center text-lg text-green-700">Loading...</div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+                  {staffAchievements.slice(0, 4).map((item, idx) => (
+                    <StaffAchievementCard key={item.id} achievement={item} />
+                  ))}
+                </div>
+                <div className="text-center mt-8">
+                  <a href="/staff-achievements" className="inline-block px-8 py-3 bg-green-700 hover:bg-green-800 rounded-full text-white font-semibold shadow-lg transition">Show All Staff Achievements</a>
+                </div>
+              </>
+            )}
+          </div>
         </section>
 
         {/* Student Achievements Section */}
-        <section className="py-12 px-6">
-          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Student Achievements</h2>
-          {studentLoading ? (
-            <div className="text-center text-lg text-blue-700">Loading...</div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-                {studentAchievements.slice(0, 4).map((item, idx) => (
-                  <StudentAchievementCard key={item.id} achievement={item} />
-                ))}
-              </div>
-              <div className="text-center mt-6">
-                <a href="/student-achievements" className={`${theme.button} px-6 py-2 rounded-md text-white inline-block`}>Show All</a>
-              </div>
-            </>
-          )}
+        <section className="py-20 px-4 bg-gradient-to-br from-yellow-50 to-pink-50">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center text-yellow-700 mb-12">Student Achievements</h2>
+            {studentLoading ? (
+              <div className="text-center text-lg text-yellow-600">Loading...</div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+                  {studentAchievements.slice(0, 4).map((item, idx) => (
+                    <StudentAchievementCard key={item.id} achievement={item} />
+                  ))}
+                </div>
+                <div className="text-center mt-8">
+                  <a href="/student-achievements" className="inline-block px-8 py-3 bg-yellow-500 hover:bg-yellow-600 rounded-full text-white font-semibold shadow-lg transition">Show All Student Achievements</a>
+                </div>
+              </>
+            )}
+          </div>
         </section>
 
         {/* Departments Section */}
-        <section className="py-12 px-6">
-          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Our Departments</h2>
-          <div className="flex overflow-x-auto space-x-4 pb-4">
-            {data.departments.map((department, index) => (
-              <DepartmentCard key={index} department={department} />
-            ))}
+        <section className="py-20 px-4 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Our Departments</h2>
+            <div className="flex overflow-x-auto space-x-6 pb-4">
+              {data.departments.map((department, index) => (
+                <DepartmentCard key={index} department={department} />
+              ))}
+            </div>
           </div>
         </section>
 
         {/* Partners Section */}
-        <section className="py-12 px-6">
-          <h2 className={`text-3xl font-bold text-center ${theme.text} mb-8`}>Official Partners</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-5xl mx-auto">
-            {data.partners.map((partner, index) => (
-              <img key={index} src={partner} alt={`Partner ${index + 1}`} className="h-16 md:h-20 object-contain" />
-            ))}
+        <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-200">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Official Partners</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center">
+              {data.partners.map((partner, index) => (
+                <img key={index} src={partner} alt={`Partner ${index + 1}`} className="h-16 md:h-20 object-contain mx-auto grayscale hover:grayscale-0 transition" />
+              ))}
+            </div>
           </div>
         </section>
 
