@@ -1,6 +1,6 @@
 import axios from "axios";
 import { StudentAchievement } from "../../types";
-import { apiBase } from "../const_service";
+import { apiBase, apiBaseForImage } from "../const_service";
 
 const apiClient = axios.create({
     baseURL: apiBase,
@@ -15,7 +15,11 @@ export const studentAchievementService = {
             title: item.title,
             description: item.description,
             date: item.date,
-            imageUrl: apiBase + item.imageUrl,
+            createdAt: item.createdAt,
+            // Ensure imageUrl is a full URL and does not duplicate /api
+            imageUrl: item.imageUrl.startsWith("http")
+                ? item.imageUrl
+                : apiBaseForImage + item.imageUrl,
         }));
     },
 };
