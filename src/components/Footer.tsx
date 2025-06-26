@@ -32,7 +32,20 @@ const Footer: React.FC<FooterProps> = ({ theme, footerData }) => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
           <p>{footerData.contact}</p>
-          <p><a href={footerData.location} className="hover:underline">View Location</a></p>
+          {/* Location Card */}
+          <div className="mt-4">
+            <div className="rounded-lg bg-white/10 border border-white/20 p-4 mb-4 flex flex-col items-start">
+              <span className="font-semibold text-white mb-2">Location</span>
+              <a
+                href={footerData.location}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full rounded bg-white/20 px-3 py-2 text-white hover:bg-white/30 transition text-sm break-all"
+              >
+                View on Map
+              </a>
+            </div>
+          </div>
           <div className="flex space-x-4 mt-4">
             <a href={footerData.socialMedia.facebook} className="hover:text-gray-300">
               <i className="fab fa-facebook"></i>
