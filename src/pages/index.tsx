@@ -1,7 +1,6 @@
 import CustomLoader from 'components/CustomLoader';
 import React, { useEffect, useState } from 'react';
 import AnnouncementSlider from '../components/AnnouncementSlider';
-import DepartmentCard from '../components/DepartmentCard';
 import EventCard from '../components/EventCard';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -9,11 +8,11 @@ import ProfileCard from '../components/ProfileCard';
 import StaffAchievementCard from '../components/StaffAchievementCard';
 import StudentAchievementCard from '../components/StudentAchievementCard';
 import { useTheme } from '../context/ThemeContext';
+import { departmentService } from '../services/department/department_service';
 import { eventService } from '../services/event/event_service';
 import { staffAchievementService } from '../services/staff-achievement/staffAchievement_service';
 import { studentAchievementService } from '../services/student-achievement/studentAchievement_service';
-import { departmentService } from '../services/department/department_service';
-import { CollegeData, EventData, StaffAchievement, StudentAchievement, DepartmentData } from '../types';
+import { CollegeData, DepartmentData, EventData, StaffAchievement, StudentAchievement } from '../types';
 
 const Home: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -37,17 +36,17 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     eventService.getEvents({ limit: 6 })
-      .then(setEvents)
+      .then(data => setEvents(data.items))
       .catch(() => setEventsError('Failed to load events.'))
       .finally(() => setEventsLoading(false));
   }, []);
 
   useEffect(() => {
     staffAchievementService.getStaffAchievements({ limit: 4 })
-      .then(setStaffAchievements)
+      .then(data => setStaffAchievements(data.items))
       .finally(() => setStaffLoading(false));
     studentAchievementService.getStudentAchievements({ limit: 4 })
-      .then(setStudentAchievements)
+      .then(data => setStudentAchievements(data.items))
       .finally(() => setStudentLoading(false));
   }, []);
 
@@ -176,7 +175,7 @@ const Home: React.FC = () => {
         </section>
 
         {/* Departments Section */}
-        {/*<section className="py-20 px-4 bg-white">
+        <section className="py-20 px-4 bg-white">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Our Departments</h2>
             {departmentsLoading ? (
@@ -197,10 +196,10 @@ const Home: React.FC = () => {
               <a href="/departments" className="inline-block px-8 py-3 bg-blue-700 hover:bg-blue-800 rounded-full text-white font-semibold shadow-lg transition">Show All Departments</a>
             </div>
           </div>
-        </section>*/}
+        </section>
 
         {/* Partners Section */}
-        {/* <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-200">
+        <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-200">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Official Partners</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center">
@@ -209,7 +208,7 @@ const Home: React.FC = () => {
               ))}
             </div>
           </div>
-        </section>*/}
+        </section>
 
         <Footer theme={theme} footerData={data.footer} />
       </div>
