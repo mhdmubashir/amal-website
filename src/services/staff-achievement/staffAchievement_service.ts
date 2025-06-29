@@ -1,16 +1,17 @@
 import axios from "axios";
-import { StaffAchievement } from "../../types";
+import { StaffAchievement, PaginatedResponse } from "../../types";
 import { apiBase, apiBaseForImage } from "../const_service";
+import { parsePaginatedResponse } from "../helper/pagination_helper";
 
 const apiClient = axios.create({
     baseURL: apiBase,
 });
 
 export const staffAchievementService = {
-    getStaffAchievements: async (params?: { limit?: number; page?: number }): Promise<StaffAchievement[]> => {
+    getStaffAchievements: async (params?: { limit?: number; page?: number; search?: string }): Promise<PaginatedResponse<StaffAchievement>> => {
         const response = await apiClient.get("/staff_achievements/public", { params });
-        // Map API response to StaffAchievement[]
-        return (response.data['data'] || []).map((item: any) => ({
+        const parsed = parsePaginatedResponse<StaffAchievement>(response);
+        parsed.items = (parsed.items || []).map((item: any) => ({
             id: item.id,
             title: item.title,
             staffName: item.staffName,
@@ -18,10 +19,10 @@ export const staffAchievementService = {
             department: item.department,
             description: item.description,
             createdAt: item.createdAt,
-            // Ensure imageUrl is a full URL and does not duplicate /api
-            imageUrl: item.imageUrl.startsWith("http")
+            imageUrl: item.imageUrl?.startsWith("http")
                 ? item.imageUrl
                 : apiBaseForImage + item.imageUrl,
         }));
+        return parsed;
     },
 };

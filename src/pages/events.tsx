@@ -3,6 +3,8 @@ import CustomLoader from "../components/CustomLoader";
 import EventCard from "../components/EventCard";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
 import { useTheme } from "../context/ThemeContext";
 import { eventService } from "../services/event/event_service";
 import { CollegeData, EventData } from "../types";
@@ -13,6 +15,9 @@ const EventsPage: React.FC = () => {
     const [selected, setSelected] = useState<EventData | null>(null);
     const [loading, setLoading] = useState(true);
     const [collegeData, setCollegeData] = useState<CollegeData | null>(null);
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         fetch('/data.json')
@@ -21,13 +26,14 @@ const EventsPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        eventService.getEvents()
+        eventService.getEvents({ page, limit: 10, search })
             .then(data => {
-                setEvents(data);
-                if (data.length > 0) setSelected(data[0]);
+                setEvents(data.items);
+                setTotalPages(data.totalPages);
+                setSelected(data.items[0] || null);
             })
             .finally(() => setLoading(false));
-    }, []);
+    }, [page, search]);
 
     if (loading || !collegeData) return <CustomLoader />;
 
@@ -41,6 +47,7 @@ const EventsPage: React.FC = () => {
             />
             <main className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 py-10 px-2 sm:px-4">
                 <div className="max-w-6xl mx-auto">
+                    <SearchBar value={search} onChange={setSearch} placeholder="Search events..." />
                     <div className="flex items-center mb-6">
                         <button
                             onClick={() => window.history.back()}
@@ -82,6 +89,7 @@ const EventsPage: React.FC = () => {
                             )}
                         </div>
                     </div>
+                    <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
                 </div>
             </main>
             <Footer theme={theme} footerData={collegeData.footer} />

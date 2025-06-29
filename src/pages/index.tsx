@@ -12,7 +12,8 @@ import { useTheme } from '../context/ThemeContext';
 import { eventService } from '../services/event/event_service';
 import { staffAchievementService } from '../services/staff-achievement/staffAchievement_service';
 import { studentAchievementService } from '../services/student-achievement/studentAchievement_service';
-import { CollegeData, EventData, StaffAchievement, StudentAchievement } from '../types';
+import { departmentService } from '../services/department/department_service';
+import { CollegeData, EventData, StaffAchievement, StudentAchievement, DepartmentData } from '../types';
 
 const Home: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -22,8 +23,10 @@ const Home: React.FC = () => {
   const [eventsError, setEventsError] = useState<string | null>(null);
   const [staffAchievements, setStaffAchievements] = useState<StaffAchievement[]>([]);
   const [studentAchievements, setStudentAchievements] = useState<StudentAchievement[]>([]);
+  const [departments, setDepartments] = useState<DepartmentData[]>([]);
   const [staffLoading, setStaffLoading] = useState(true);
   const [studentLoading, setStudentLoading] = useState(true);
+  const [departmentsLoading, setDepartmentsLoading] = useState(true);
 
   useEffect(() => {
     fetch('/data.json')
@@ -46,6 +49,12 @@ const Home: React.FC = () => {
     studentAchievementService.getStudentAchievements({ limit: 4 })
       .then(setStudentAchievements)
       .finally(() => setStudentLoading(false));
+  }, []);
+
+  useEffect(() => {
+    departmentService.getDepartments({ limit: 10 })
+      .then(data => setDepartments(data.items))
+      .finally(() => setDepartmentsLoading(false));
   }, []);
 
   if (!data) return <CustomLoader />;
@@ -170,10 +179,22 @@ const Home: React.FC = () => {
         <section className="py-20 px-4 bg-white">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Our Departments</h2>
-            <div className="flex overflow-x-auto space-x-6 pb-4">
-              {data.departments.map((department, index) => (
-                <DepartmentCard key={index} department={department} />
-              ))}
+            {departmentsLoading ? (
+              <div className="text-center text-lg text-blue-700">Loading departments...</div>
+            ) : (
+              <div className="flex overflow-x-auto space-x-6 pb-4">
+                {departments.map((department, index) => (
+                  <a key={department.id} href={`/departments?id=${department.id}`}>
+                    <div className="bg-blue-600 p-4 rounded-lg shadow-md text-white text-center min-w-[200px] hover:scale-105 transition">
+                      <img src={department.imageUrl} alt={department.depName} className="w-full h-32 object-cover rounded-md mb-2" />
+                      <h3 className="font-semibold">{department.depName}</h3>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+            <div className="text-center mt-8">
+              <a href="/departments" className="inline-block px-8 py-3 bg-blue-700 hover:bg-blue-800 rounded-full text-white font-semibold shadow-lg transition">Show All Departments</a>
             </div>
           </div>
         </section>

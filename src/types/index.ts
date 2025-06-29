@@ -73,3 +73,25 @@ export interface StudentAchievement {
   date: string;
   imageUrl: string;
 }
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  pageCount: number;
+  totalPages: number;
+  currentPage: number;
+  totalItems: number;
+  search?: string;
+}
+
+export interface DepartmentData {
+  id?: string;
+  depName: string;
+  description?: string;
+  image?: string | File;
+  imageUrl?: string;
+  duration?: string;
+  departmenthead?: any; // can be object or id
+  contactnum?: string;
+  syllabus?: string | File;
+  syllabusUrl?: string;
+}

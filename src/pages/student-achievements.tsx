@@ -3,6 +3,8 @@ import CustomLoader from "../components/CustomLoader";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import StudentAchievementCard from "../components/StudentAchievementCard";
+import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
 import { useTheme } from "../context/ThemeContext";
 import { studentAchievementService } from "../services/student-achievement/studentAchievement_service";
 import { CollegeData, StudentAchievement } from "../types";
@@ -13,6 +15,9 @@ const StudentAchievementsPage: React.FC = () => {
     const [selected, setSelected] = useState<StudentAchievement | null>(null);
     const [loading, setLoading] = useState(true);
     const [collegeData, setCollegeData] = useState<CollegeData | null>(null);
+    const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         fetch('/data.json')
@@ -21,13 +26,14 @@ const StudentAchievementsPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        studentAchievementService.getStudentAchievements()
+        studentAchievementService.getStudentAchievements({ page, limit: 10, search })
             .then(data => {
-                setAchievements(data);
-                if (data.length > 0) setSelected(data[0]);
+                setAchievements(data.items);
+                setTotalPages(data.totalPages);
+                setSelected(data.items[0] || null);
             })
             .finally(() => setLoading(false));
-    }, []);
+    }, [page, search]);
 
     if (loading || !collegeData) return <CustomLoader />;
 
@@ -41,6 +47,7 @@ const StudentAchievementsPage: React.FC = () => {
             />
             <main className="min-h-screen bg-gradient-to-br from-yellow-50 to-pink-100 py-10 px-2 sm:px-4">
                 <div className="max-w-6xl mx-auto">
+                    <SearchBar value={search} onChange={setSearch} placeholder="Search student achievements..." />
                     <div className="flex items-center mb-6">
                         <button
                             onClick={() => window.history.back()}
@@ -82,6 +89,7 @@ const StudentAchievementsPage: React.FC = () => {
                             )}
                         </div>
                     </div>
+                    <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
                 </div>
             </main>
             <Footer theme={theme} footerData={collegeData.footer} />
