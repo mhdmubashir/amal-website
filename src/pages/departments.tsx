@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import CustomLoader from "../components/CustomLoader";
 import Pagination from "../components/Pagination";
 import SearchBar from "../components/SearchBar";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useTheme } from "../context/ThemeContext";
 import { departmentService } from "../services/department/department_service";
-import { DepartmentData } from "../types";
+import { CollegeData, DepartmentData } from "../types";
 
 const DepartmentsPage: React.FC = () => {
-    const { theme } = useTheme();
+    const { theme, toggleTheme } = useTheme();
     const [departments, setDepartments] = useState<DepartmentData[]>([]);
     const [selected, setSelected] = useState<DepartmentData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -15,6 +17,14 @@ const DepartmentsPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searching, setSearching] = useState(false);
+    const [collegeData, setCollegeData] = useState<CollegeData | null>(null);
+
+    // Fetch college data for header/footer
+    useEffect(() => {
+        fetch('/data.json')
+            .then(res => res.json())
+            .then(json => setCollegeData(json));
+    }, []);
 
     // Sync selected department with URL
     useEffect(() => {
@@ -70,99 +80,108 @@ const DepartmentsPage: React.FC = () => {
             .finally(() => setLoading(false));
     };
 
-    if (loading) return <CustomLoader />;
+    if (loading || !collegeData) return <CustomLoader />;
 
     return (
-        <main className={`${theme.background} min-h-screen py-10 px-2 sm:px-4`}>
-            <div className="max-w-6xl mx-auto">
-                {/* Back Button */}
-                <div className="mb-4 flex items-center">
-                    <button
-                        onClick={() => window.history.back()}
-                        className="mr-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-                    >
-                        &larr; Back
-                    </button>
-                    <h1 className="text-3xl font-bold text-gray-900">Departments</h1>
-                </div>
-                <SearchBar value={search} onChange={handleSearch} placeholder="Search departments..." />
-                {searching && (
-                    <div className="flex justify-center my-4">
-                        <span className="text-gray-500 text-sm">Searching...</span>
+        <>
+            <Header
+                theme={theme}
+                toggleTheme={toggleTheme}
+                collegeName={collegeData.collegeName}
+                logo={collegeData.footer.logo}
+            />
+            <main className={`${theme.background} min-h-screen py-10 px-2 sm:px-4`}>
+                <div className="max-w-6xl mx-auto">
+                    {/* Back Button */}
+                    <div className="mb-4 flex items-center">
+                        <button
+                            onClick={() => window.history.back()}
+                            className="mr-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+                        >
+                            &larr; Back
+                        </button>
+                        <h1 className="text-3xl font-bold text-gray-900">Departments</h1>
                     </div>
-                )}
-                <div className="flex flex-col md:flex-row gap-8">
-                    <div className="md:w-1/3 w-full flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible">
-                        {departments.map((dep) => (
-                            <button
-                                key={dep.id}
-                                className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium border border-gray-200 ${theme.card} hover:bg-gray-100 ${selected?.id === dep.id
-                                    ? "ring-2 ring-green-400 bg-green-50"
-                                    : ""
-                                    }`}
-                                onClick={() => handleSelect(dep.id!)}
-                            >
-                                <img
-                                    src={dep.imageUrl}
-                                    alt={dep.depName}
-                                    className="h-12 w-12 object-cover rounded-full mb-2 border border-gray-300"
-                                />
-                                <div className={`font-semibold truncate ${theme.text}`}>{dep.depName}</div>
-                            </button>
-                        ))}
-                    </div>
-                    <div className="md:w-2/3 w-full">
-                        {selected ? (
-                            <div className={`${theme.card} rounded-xl shadow-lg p-8 border border-gray-200`}>
-                                <div className="flex flex-col md:flex-row gap-8">
+                    <SearchBar value={search} onChange={handleSearch} placeholder="Search departments..." />
+                    {searching && (
+                        <div className="flex justify-center my-4">
+                            <span className="text-gray-500 text-sm">Searching...</span>
+                        </div>
+                    )}
+                    <div className="flex flex-col md:flex-row gap-8">
+                        <div className="md:w-1/3 w-full flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible">
+                            {departments.map((dep) => (
+                                <button
+                                    key={dep.id}
+                                    className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium border border-gray-200 ${theme.card} hover:bg-gray-100 ${selected?.id === dep.id
+                                        ? "ring-2 ring-green-400 bg-green-50"
+                                        : ""
+                                        }`}
+                                    onClick={() => handleSelect(dep.id!)}
+                                >
                                     <img
-                                        src={selected.imageUrl}
-                                        alt={selected.depName}
-                                        className="w-48 h-48 object-cover rounded-lg shadow border border-gray-200"
+                                        src={dep.imageUrl}
+                                        alt={dep.depName}
+                                        className="h-12 w-12 object-cover rounded-full mb-2 border border-gray-300"
                                     />
-                                    <div>
-                                        <h2 className="text-3xl font-bold mb-2 text-gray-900">{selected.depName}</h2>
-                                        <p className="text-gray-700 mb-4">{selected.description}</p>
-                                        {selected.duration && (
-                                            <div className="mb-2 text-gray-800">
-                                                <span className="font-semibold">Duration:</span> {selected.duration} years
-                                            </div>
-                                        )}
-                                        {selected.contactnum && (
-                                            <div className="mb-2 text-gray-800">
-                                                <span className="font-semibold">Contact:</span> {selected.contactnum}
-                                            </div>
-                                        )}
-                                        {selected.departmenthead && (
-                                            <div className="mb-2 text-gray-800">
-                                                <span className="font-semibold">Head:</span>{" "}
-                                                {selected.departmenthead.name || selected.departmentheadCustom}
-                                                {selected.departmenthead.email && (
-                                                    <div className="text-sm text-gray-500">{selected.departmenthead.email}</div>
-                                                )}
-                                            </div>
-                                        )}
-                                        {selected.syllabusUrl && (
-                                            <a
-                                                href={selected.syllabusUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
-                                            >
-                                                View Syllabus
-                                            </a>
-                                        )}
+                                    <div className={`font-semibold truncate ${theme.text}`}>{dep.depName}</div>
+                                </button>
+                            ))}
+                        </div>
+                        <div className="md:w-2/3 w-full">
+                            {selected ? (
+                                <div className={`${theme.card} rounded-xl shadow-lg p-8 border border-gray-200`}>
+                                    <div className="flex flex-col md:flex-row gap-8">
+                                        <img
+                                            src={selected.imageUrl}
+                                            alt={selected.depName}
+                                            className="w-48 h-48 object-cover rounded-lg shadow border border-gray-200"
+                                        />
+                                        <div>
+                                            <h2 className="text-3xl font-bold mb-2 text-gray-900">{selected.depName}</h2>
+                                            <p className="text-gray-700 mb-4">{selected.description}</p>
+                                            {selected.duration && (
+                                                <div className="mb-2 text-gray-800">
+                                                    <span className="font-semibold">Duration:</span> {selected.duration} years
+                                                </div>
+                                            )}
+                                            {selected.contactnum && (
+                                                <div className="mb-2 text-gray-800">
+                                                    <span className="font-semibold">Contact:</span> {selected.contactnum}
+                                                </div>
+                                            )}
+                                            {selected.departmenthead && (
+                                                <div className="mb-2 text-gray-800">
+                                                    <span className="font-semibold">Head:</span>{" "}
+                                                    {selected.departmenthead.name || selected.departmentheadCustom}
+                                                    {selected.departmenthead.email && (
+                                                        <div className="text-sm text-gray-500">{selected.departmenthead.email}</div>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {selected.syllabusUrl && (
+                                                <a
+                                                    href={selected.syllabusUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                                                >
+                                                    View Syllabus
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="text-gray-500 text-center mt-10">Select a department to view details.</div>
-                        )}
+                            ) : (
+                                <div className="text-gray-500 text-center mt-10">Select a department to view details.</div>
+                            )}
+                        </div>
                     </div>
+                    <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
                 </div>
-                <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
-            </div>
-        </main>
+            </main>
+            <Footer theme={theme} footerData={collegeData.footer} />
+        </>
     );
 };
 
