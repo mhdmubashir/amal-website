@@ -34,7 +34,7 @@ const DepartmentsPage: React.FC = () => {
     if (loading) return <CustomLoader />;
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-10 px-2 sm:px-4">
+        <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-2 sm:px-4">
             <div className="max-w-6xl mx-auto">
                 <SearchBar value={search} onChange={setSearch} placeholder="Search departments..." />
                 <div className="flex flex-col md:flex-row gap-8">
@@ -42,36 +42,61 @@ const DepartmentsPage: React.FC = () => {
                         {departments.map((dep) => (
                             <button
                                 key={dep.id}
-                                className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium ${selected?.id === dep.id
-                                    ? "bg-blue-600 text-white scale-105"
-                                    : "bg-white text-gray-800 hover:bg-blue-100"
+                                className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium border border-gray-200 bg-white hover:bg-gray-100 ${selected?.id === dep.id
+                                        ? "ring-2 ring-primary-500 bg-gray-50"
+                                        : ""
                                     }`}
                                 onClick={() => handleSelect(dep.id!)}
                             >
-                                <img src={dep.imageUrl} alt={dep.depName} className="h-12 w-12 object-cover rounded-full mb-2" />
-                                <div className="font-semibold truncate">{dep.depName}</div>
+                                <img
+                                    src={dep.imageUrl}
+                                    alt={dep.depName}
+                                    className="h-12 w-12 object-cover rounded-full mb-2 border border-gray-300"
+                                />
+                                <div className="font-semibold truncate text-gray-800">{dep.depName}</div>
                             </button>
                         ))}
                     </div>
                     <div className="md:w-2/3 w-full">
                         {selected ? (
-                            <div className="bg-white rounded-xl shadow-lg p-6">
-                                <div className="flex flex-col md:flex-row gap-6">
-                                    <img src={selected.imageUrl} alt={selected.depName} className="w-48 h-48 object-cover rounded-lg shadow" />
+                            <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+                                <div className="flex flex-col md:flex-row gap-8">
+                                    <img
+                                        src={selected.imageUrl}
+                                        alt={selected.depName}
+                                        className="w-48 h-48 object-cover rounded-lg shadow border border-gray-200"
+                                    />
                                     <div>
-                                        <h2 className="text-3xl font-bold mb-2 text-blue-900">{selected.depName}</h2>
+                                        <h2 className="text-3xl font-bold mb-2 text-gray-900">{selected.depName}</h2>
                                         <p className="text-gray-700 mb-4">{selected.description}</p>
-                                        <div className="mb-2"><span className="font-semibold">Duration:</span> {selected.duration} years</div>
-                                        <div className="mb-2"><span className="font-semibold">Contact:</span> {selected.contactnum}</div>
+                                        {selected.duration && (
+                                            <div className="mb-2 text-gray-800">
+                                                <span className="font-semibold">Duration:</span> {selected.duration} years
+                                            </div>
+                                        )}
+                                        {selected.contactnum && (
+                                            <div className="mb-2 text-gray-800">
+                                                <span className="font-semibold">Contact:</span> {selected.contactnum}
+                                            </div>
+                                        )}
                                         {selected.departmenthead && (
-                                            <div className="mb-2">
+                                            <div className="mb-2 text-gray-800">
                                                 <span className="font-semibold">Head:</span>{" "}
                                                 {selected.departmenthead.name || selected.departmentheadCustom}
-                                                <div className="text-sm text-gray-500">{selected.departmenthead.email}</div>
+                                                {selected.departmenthead.email && (
+                                                    <div className="text-sm text-gray-500">{selected.departmenthead.email}</div>
+                                                )}
                                             </div>
                                         )}
                                         {selected.syllabusUrl && (
-                                            <a href={selected.syllabusUrl} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">View Syllabus</a>
+                                            <a
+                                                href={selected.syllabusUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-block mt-2 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
+                                            >
+                                                View Syllabus
+                                            </a>
                                         )}
                                     </div>
                                 </div>
