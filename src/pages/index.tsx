@@ -175,25 +175,34 @@ const Home: React.FC = () => {
         </section>
 
         {/* Departments Section */}
-        <section className="py-20 px-4 bg-white">
+        <section className={`${theme.background} py-20 px-4`}>
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Our Departments</h2>
             {departmentsLoading ? (
-              <div className="text-center text-lg text-blue-700">Loading departments...</div>
+              <div className="text-center text-lg text-green-700">Loading departments...</div>
             ) : (
               <div className="flex overflow-x-auto space-x-6 pb-4">
-                {departments.map((department, index) => (
+                {departments.map((department) => (
                   <a key={department.id} href={`/departments?id=${department.id}`}>
-                    <div className="bg-blue-600 p-4 rounded-lg shadow-md text-white text-center min-w-[200px] hover:scale-105 transition">
-                      <img src={department.imageUrl} alt={department.depName} className="w-full h-32 object-cover rounded-md mb-2" />
-                      <h3 className="font-semibold">{department.depName}</h3>
+                    <div className={`${theme.card} border border-gray-200 p-4 rounded-lg shadow-md text-center min-w-[200px] hover:scale-105 transition`}>
+                      <img
+                        src={department.imageUrl}
+                        alt={department.depName}
+                        className="w-full h-32 object-cover rounded-md mb-2 border border-gray-200"
+                      />
+                      <h3 className={`font-semibold ${theme.text}`}>{department.depName}</h3>
                     </div>
                   </a>
                 ))}
               </div>
             )}
             <div className="text-center mt-8">
-              <a href="/departments" className="inline-block px-8 py-3 bg-blue-700 hover:bg-blue-800 rounded-full text-white font-semibold shadow-lg transition">Show All Departments</a>
+              <a
+                href="/departments"
+                className="inline-block px-8 py-3 bg-green-600 hover:bg-green-700 rounded-full text-white font-semibold shadow-lg transition"
+              >
+                Show All Departments
+              </a>
             </div>
           </div>
         </section>

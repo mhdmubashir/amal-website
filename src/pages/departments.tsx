@@ -2,27 +2,44 @@ import React, { useEffect, useState } from "react";
 import CustomLoader from "../components/CustomLoader";
 import Pagination from "../components/Pagination";
 import SearchBar from "../components/SearchBar";
+import { useTheme } from "../context/ThemeContext";
 import { departmentService } from "../services/department/department_service";
 import { DepartmentData } from "../types";
 
 const DepartmentsPage: React.FC = () => {
+    const { theme } = useTheme();
     const [departments, setDepartments] = useState<DepartmentData[]>([]);
     const [selected, setSelected] = useState<DepartmentData | null>(null);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searching, setSearching] = useState(false);
 
+    // Fetch departments
     useEffect(() => {
         setLoading(true);
         departmentService.getDepartments({ page, limit: 10, search })
             .then(data => {
                 setDepartments(data.items);
                 setTotalPages(data.totalPages);
-                setSelected(null);
+                // Select first department if not already selected or if search changes
+                if (data.items.length > 0) {
+                    setSelected(data.items[0]);
+                } else {
+                    setSelected(null);
+                }
             })
             .finally(() => setLoading(false));
     }, [page, search]);
+
+    // Handle search loading state
+    const handleSearch = (value: string) => {
+        setSearching(true);
+        setSearch(value);
+        setPage(1);
+        setTimeout(() => setSearching(false), 400); // Simulate debounce
+    };
 
     const handleSelect = (id: string) => {
         setLoading(true);
@@ -34,17 +51,22 @@ const DepartmentsPage: React.FC = () => {
     if (loading) return <CustomLoader />;
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-2 sm:px-4">
+        <main className={`${theme.background} min-h-screen py-10 px-2 sm:px-4`}>
             <div className="max-w-6xl mx-auto">
-                <SearchBar value={search} onChange={setSearch} placeholder="Search departments..." />
+                <SearchBar value={search} onChange={handleSearch} placeholder="Search departments..." />
+                {searching && (
+                    <div className="flex justify-center my-4">
+                        <span className="text-gray-500 text-sm">Searching...</span>
+                    </div>
+                )}
                 <div className="flex flex-col md:flex-row gap-8">
                     <div className="md:w-1/3 w-full flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible">
                         {departments.map((dep) => (
                             <button
                                 key={dep.id}
-                                className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium border border-gray-200 bg-white hover:bg-gray-100 ${selected?.id === dep.id
-                                        ? "ring-2 ring-primary-500 bg-gray-50"
-                                        : ""
+                                className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium border border-gray-200 ${theme.card} hover:bg-gray-100 ${selected?.id === dep.id
+                                    ? "ring-2 ring-green-400 bg-green-50"
+                                    : ""
                                     }`}
                                 onClick={() => handleSelect(dep.id!)}
                             >
@@ -53,13 +75,13 @@ const DepartmentsPage: React.FC = () => {
                                     alt={dep.depName}
                                     className="h-12 w-12 object-cover rounded-full mb-2 border border-gray-300"
                                 />
-                                <div className="font-semibold truncate text-gray-800">{dep.depName}</div>
+                                <div className={`font-semibold truncate ${theme.text}`}>{dep.depName}</div>
                             </button>
                         ))}
                     </div>
                     <div className="md:w-2/3 w-full">
                         {selected ? (
-                            <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
+                            <div className={`${theme.card} rounded-xl shadow-lg p-8 border border-gray-200`}>
                                 <div className="flex flex-col md:flex-row gap-8">
                                     <img
                                         src={selected.imageUrl}
@@ -93,7 +115,7 @@ const DepartmentsPage: React.FC = () => {
                                                 href={selected.syllabusUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-block mt-2 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
+                                                className="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
                                             >
                                                 View Syllabus
                                             </a>
