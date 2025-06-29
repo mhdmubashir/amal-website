@@ -65,7 +65,8 @@ const DepartmentsPage: React.FC = () => {
                                         <div className="mb-2"><span className="font-semibold">Contact:</span> {selected.contactnum}</div>
                                         {selected.departmenthead && (
                                             <div className="mb-2">
-                                                <span className="font-semibold">Head:</span> {selected.departmenthead.name || selected.departmentheadCustom}
+                                                <span className="font-semibold">Head:</span>{" "}
+                                                {selected.departmenthead.name || selected.departmentheadCustom}
                                                 <div className="text-sm text-gray-500">{selected.departmenthead.email}</div>
                                             </div>
                                         )}

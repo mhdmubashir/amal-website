@@ -91,6 +91,7 @@ export interface DepartmentData {
   imageUrl?: string;
   duration?: string;
   departmenthead?: any; // can be object or id
+  departmentheadCustom?: string;
   contactnum?: string;
   syllabus?: string | File;
   syllabusUrl?: string;
