@@ -16,6 +16,17 @@ const DepartmentsPage: React.FC = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [searching, setSearching] = useState(false);
 
+    // Sync selected department with URL
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        if (id && departments.length > 0) {
+            const found = departments.find(dep => dep.id === id);
+            if (found) setSelected(found);
+        }
+        // eslint-disable-next-line
+    }, [departments]);
+
     // Fetch departments
     useEffect(() => {
         setLoading(true);
@@ -23,9 +34,16 @@ const DepartmentsPage: React.FC = () => {
             .then(data => {
                 setDepartments(data.items);
                 setTotalPages(data.totalPages);
-                // Select first department if not already selected or if search changes
-                if (data.items.length > 0) {
+                // Select first department or from URL
+                const params = new URLSearchParams(window.location.search);
+                const id = params.get("id");
+                if (id && data.items.length > 0) {
+                    const found = data.items.find(dep => dep.id === id);
+                    setSelected(found || data.items[0]);
+                } else if (data.items.length > 0) {
                     setSelected(data.items[0]);
+                    // Update URL to reflect first department
+                    window.history.replaceState({}, "", `/departments?id=${data.items[0].id}`);
                 } else {
                     setSelected(null);
                 }
@@ -44,7 +62,11 @@ const DepartmentsPage: React.FC = () => {
     const handleSelect = (id: string) => {
         setLoading(true);
         departmentService.getDepartment(id)
-            .then(setSelected)
+            .then(dep => {
+                setSelected(dep);
+                // Update URL with selected department id
+                window.history.replaceState({}, "", `/departments?id=${id}`);
+            })
             .finally(() => setLoading(false));
     };
 
@@ -53,6 +75,16 @@ const DepartmentsPage: React.FC = () => {
     return (
         <main className={`${theme.background} min-h-screen py-10 px-2 sm:px-4`}>
             <div className="max-w-6xl mx-auto">
+                {/* Back Button */}
+                <div className="mb-4 flex items-center">
+                    <button
+                        onClick={() => window.history.back()}
+                        className="mr-4 px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+                    >
+                        &larr; Back
+                    </button>
+                    <h1 className="text-3xl font-bold text-gray-900">Departments</h1>
+                </div>
                 <SearchBar value={search} onChange={handleSearch} placeholder="Search departments..." />
                 {searching && (
                     <div className="flex justify-center my-4">
