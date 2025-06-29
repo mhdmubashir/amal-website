@@ -16,11 +16,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
     <header className={`sticky top-0 z-20 ${theme.background} shadow-md py-4 px-6 flex justify-between items-center`}>
       {/* Logo & Nam*/}
       <div className="flex items-center space-x-4">
-        <img
-          src="public\images\amal-auto.webp"
-          alt="Amal College logo featuring a stylized emblem with the text Amal College, conveying a sense of academic excellence and welcoming atmosphere"
-          className="h-10"
-        />
+        <img src={logo} alt="College Logo" className="h-10" />
         {/* <h1 className={`text-xl sm:text-2xl font-bold ${theme.text}`}></h1> */}
       </div>
 
