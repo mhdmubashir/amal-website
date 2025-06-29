@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import CustomLoader from "../components/CustomLoader";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import StaffAchievementCard from "../components/StaffAchievementCard";
-import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
+import SearchBar from "../components/SearchBar";
+import StaffAchievementCard from "../components/StaffAchievementCard";
 import { useTheme } from "../context/ThemeContext";
 import { staffAchievementService } from "../services/staff-achievement/staffAchievement_service";
 import { CollegeData, StaffAchievement } from "../types";
@@ -63,8 +63,8 @@ const StaffAchievementsPage: React.FC = () => {
                                 <button
                                     key={item.id}
                                     className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium ${selected?.id === item.id
-                                            ? "bg-green-600 text-white scale-105"
-                                            : "bg-white text-gray-800 hover:bg-green-100"
+                                        ? "bg-green-600 text-white scale-105"
+                                        : "bg-white text-gray-800 hover:bg-green-100"
                                         }`}
                                     onClick={() => setSelected(item)}
                                 >

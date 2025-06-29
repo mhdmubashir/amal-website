@@ -1,5 +1,5 @@
 import axios from "axios";
-import { StaffAchievement, PaginatedResponse } from "../../types";
+import { PaginatedResponse, StaffAchievement } from "../../types";
 import { apiBase, apiBaseForImage } from "../const_service";
 import { parsePaginatedResponse } from "../helper/pagination_helper";
 

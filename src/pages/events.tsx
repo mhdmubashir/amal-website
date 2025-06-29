@@ -3,8 +3,8 @@ import CustomLoader from "../components/CustomLoader";
 import EventCard from "../components/EventCard";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
+import SearchBar from "../components/SearchBar";
 import { useTheme } from "../context/ThemeContext";
 import { eventService } from "../services/event/event_service";
 import { CollegeData, EventData } from "../types";
@@ -63,8 +63,8 @@ const EventsPage: React.FC = () => {
                                 <button
                                     key={item.id}
                                     className={`min-w-[180px] md:min-w-0 text-left px-4 py-3 rounded-lg shadow transition font-medium ${selected?.id === item.id
-                                            ? "bg-blue-600 text-white scale-105"
-                                            : "bg-white text-gray-800 hover:bg-blue-100"
+                                        ? "bg-blue-600 text-white scale-105"
+                                        : "bg-white text-gray-800 hover:bg-blue-100"
                                         }`}
                                     onClick={() => setSelected(item)}
                                 >
