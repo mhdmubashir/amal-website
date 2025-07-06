@@ -17,6 +17,9 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [deptDropdown, setDeptDropdown] = useState(false);
   const deptDropdownRef = useRef<HTMLDivElement>(null);
 
+  // Track if dropdown should stay open due to click
+  const [deptDropdownPinned, setDeptDropdownPinned] = useState(false);
+
   useEffect(() => {
     departmentService.getDepartments({ limit: 100 })
       .then(data => setDepartments(data.items));
@@ -25,15 +28,19 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (deptDropdownRef.current && !deptDropdownRef.current.contains(event.target as Node)) {
+      if (
+        deptDropdownRef.current &&
+        !deptDropdownRef.current.contains(event.target as Node)
+      ) {
         setDeptDropdown(false);
+        setDeptDropdownPinned(false);
       }
     }
-    if (deptDropdown) {
+    if (deptDropdown || deptDropdownPinned) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [deptDropdown]);
+  }, [deptDropdown, deptDropdownPinned]);
 
   // Scroll to footer
   const scrollToFooter = () => {
@@ -84,18 +91,20 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
         >
           <button
             className={`flex items-center gap-1 hover:underline transition active:scale-95 ${theme.text} active:scale-90`}
-            onClick={() => setDeptDropdown(v => !v)}
+            onClick={() => {
+              setDeptDropdown(v => !v);
+              setDeptDropdownPinned(v => !v);
+            }}
             onMouseEnter={() => setDeptDropdown(true)}
-            onMouseLeave={() => setDeptDropdown(false)}
             aria-haspopup="true"
-            aria-expanded={deptDropdown ? true : false}
+            aria-expanded={deptDropdown || deptDropdownPinned ? true : false}
             type="button"
             tabIndex={0}
           >
             <BuildingLibraryIcon className="h-5 w-5 mr-1" />
             Departments <ChevronDownIcon className="h-4 w-4" />
           </button>
-          {deptDropdown && (
+          {(deptDropdown || deptDropdownPinned) && (
             <div
               className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
               onMouseEnter={() => setDeptDropdown(true)}
@@ -104,8 +113,12 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               <ul>
                 <li>
                   <button
-                    className="w-full text-left block px-4 py-2 hover:bg-green-50 text-gray-800 font-semibold"
-                    onClick={scrollToFooter}
+                    className="w-full text-left block px-4 py-2 bg-green-50 hover:bg-green-100 rounded-md text-gray-800 font-semibold transition active:bg-green-200"
+                    onClick={() => {
+                      scrollToFooter();
+                      setDeptDropdown(false);
+                      setDeptDropdownPinned(false);
+                    }}
                   >
                     All Departments
                   </button>
@@ -114,7 +127,11 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
                   <li key={dep.id}>
                     <a
                       href={`/departments?id=${dep.id}`}
-                      className="block px-4 py-2 hover:bg-green-100 text-gray-800"
+                      className="block px-4 py-2 my-1 bg-gray-50 hover:bg-green-100 rounded-md text-gray-800 transition active:bg-green-200"
+                      onClick={() => {
+                        setDeptDropdown(false);
+                        setDeptDropdownPinned(false);
+                      }}
                     >
                       {dep.depName}
                     </a>
