@@ -1,4 +1,4 @@
-import { AcademicCapIcon, Bars3Icon, BuildingLibraryIcon, CalendarDaysIcon, ChevronDownIcon, MoonIcon, SunIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { AcademicCapIcon, Bars3Icon, BuildingLibraryIcon, CalendarDaysIcon, ChevronDownIcon, ChevronUpIcon, MoonIcon, SunIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { departmentService } from '../services/department/department_service';
@@ -67,6 +67,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
 
   // Sidebar navigation with icons
   const navLinks = [
+    { label: 'Home', href: '/', icon: <svg className="h-5 w-5 mr-2 inline" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0h6" /></svg> },
     { label: 'Events', href: '/events', icon: <CalendarDaysIcon className="h-5 w-5 mr-2 inline" /> },
     { label: 'Staff Achievements', href: '/staff-achievements', icon: <UsersIcon className="h-5 w-5 mr-2 inline" /> },
     { label: 'Student Achievements', href: '/student-achievements', icon: <AcademicCapIcon className="h-5 w-5 mr-2 inline" /> },
@@ -115,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             tabIndex={0}
           >
             <BuildingLibraryIcon className="h-5 w-5 mr-1" />
-            Departments <ChevronDownIcon className="h-4 w-4" />
+            Departments {deptDropdown || deptDropdownPinned ? <ChevronUpIcon className="h-4 w-4" /> : <ChevronDownIcon className="h-4 w-4" />}
           </button>
           {(deptDropdown || deptDropdownPinned) && (
             <div
@@ -227,7 +228,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               >
                 <BuildingLibraryIcon className="h-5 w-5 mr-2" />
                 Departments
-                <ChevronDownIcon className="h-4 w-4" />
+                {mobileDeptOpen ? <ChevronUpIcon className="h-4 w-4" /> : <ChevronDownIcon className="h-4 w-4" />}
               </button>
               {mobileDeptOpen && (
                 <div className="pl-4 mt-1">
