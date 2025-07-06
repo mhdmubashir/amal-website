@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: { Component: React.ComponentType; pageP
     <>
       <Head>
         <title>Amal College</title>
-        <link rel="icon" href="/images/amal-auto.webp" />
+        <link rel="icon" href="/images/logo.png" />
         <meta name="description" content="Amal College Nilambur - Official website for Amal College, Amal Campus, Nilambur. Explore courses, events, admissions, and campus life." />
         <meta name="keywords" content="Amal College, Amal Campus, Amal Nilambur, Amal College Nilambur, Nilambur College, Kerala College, Amal College Admission, Amal College Events" />
         <meta name="robots" content="index, follow" />

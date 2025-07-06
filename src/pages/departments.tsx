@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CustomLoader from "../components/CustomLoader";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 import Pagination from "../components/Pagination";
 import SearchBar from "../components/SearchBar";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { useTheme } from "../context/ThemeContext";
 import { departmentService } from "../services/department/department_service";
 import { CollegeData, DepartmentData } from "../types";
@@ -88,7 +88,7 @@ const DepartmentsPage: React.FC = () => {
                 theme={theme}
                 toggleTheme={toggleTheme}
                 collegeName={collegeData.collegeName}
-                logo={collegeData.footer.logo}
+                logo="/images/amal-auto.webp"
             />
             <main className={`${theme.background} min-h-screen py-10 px-2 sm:px-4`}>
                 <div className="max-w-6xl mx-auto">
@@ -180,7 +180,7 @@ const DepartmentsPage: React.FC = () => {
                     <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
                 </div>
             </main>
-            <Footer theme={theme} footerData={collegeData.footer} />
+            <Footer theme={theme} footerData={{ ...collegeData.footer, logo: "/images/amal-auto.webp" }} />
         </>
     );
 };
