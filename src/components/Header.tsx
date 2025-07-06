@@ -1,4 +1,4 @@
-import { Bars3Icon, ChevronDownIcon, MoonIcon, SunIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { AcademicCapIcon, Bars3Icon, BuildingLibraryIcon, CalendarDaysIcon, ChevronDownIcon, MoonIcon, SunIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useRef, useState } from 'react';
 import { departmentService } from '../services/department/department_service';
 import { Theme, themes } from '../styles/theme';
@@ -45,19 +45,22 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     setDeptDropdown(false);
   };
 
-  // Sidebar navigation
+  // Sidebar navigation with icons
   const navLinks = [
-    { label: 'Events', href: '/events' },
-    { label: 'Staff Achievements', href: '/staff-achievements' },
-    { label: 'Student Achievements', href: '/student-achievements' },
+    { label: 'Events', href: '/events', icon: <CalendarDaysIcon className="h-5 w-5 mr-2 inline" /> },
+    { label: 'Staff Achievements', href: '/staff-achievements', icon: <UsersIcon className="h-5 w-5 mr-2 inline" /> },
+    { label: 'Student Achievements', href: '/student-achievements', icon: <AcademicCapIcon className="h-5 w-5 mr-2 inline" /> },
   ];
+
+  // Logo path based on theme
+  const logoSrc = theme === themes.dark ? "/images/amal-auto-white.webp" : "/images/amal-auto.webp";
 
   return (
     <header className={`sticky top-0 z-20 ${theme.background} shadow-md py-4 px-6 flex justify-between items-center`}>
       {/* Logo */}
       <div className="flex items-center space-x-4">
         <a href="/">
-          <img src="/images/amal-auto.webp" alt="College Logo" className="h-10" />
+          <img src={logoSrc} alt="College Logo" className="h-10" />
         </a>
       </div>
 
@@ -67,9 +70,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           <a
             key={link.label}
             href={link.href}
-            className={`hover:underline transition active:scale-95 ${theme.text} active:scale-90`}
+            className={`hover:underline transition active:scale-95 ${theme.text} active:scale-90 flex items-center`}
             tabIndex={0}
           >
+            {link.icon}
             {link.label}
           </a>
         ))}
@@ -88,6 +92,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             type="button"
             tabIndex={0}
           >
+            <BuildingLibraryIcon className="h-5 w-5 mr-1" />
             Departments <ChevronDownIcon className="h-4 w-4" />
           </button>
           {deptDropdown && (
@@ -158,7 +163,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           {/* Logo at top */}
           <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
             <a href="/">
-              <img src="/images/amal-auto.webp" alt="Logo" className="h-10" />
+              <img src={logoSrc} alt="Logo" className="h-10" />
             </a>
             <button
               onClick={() => setDrawerOpen(false)}
@@ -174,9 +179,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               <a
                 key={link.label}
                 href={link.href}
-                className="py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium active:scale-95 transition"
+                className="py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium active:scale-95 transition flex items-center"
                 onClick={() => setDrawerOpen(false)}
               >
+                {link.icon}
                 {link.label}
               </a>
             ))}
@@ -187,6 +193,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
                 onClick={scrollToFooter}
                 type="button"
               >
+                <BuildingLibraryIcon className="h-5 w-5 mr-2" />
                 Departments
                 <ChevronDownIcon className="h-4 w-4" />
               </button>

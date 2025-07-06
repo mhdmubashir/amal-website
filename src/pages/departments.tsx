@@ -44,21 +44,18 @@ const DepartmentsPage: React.FC = () => {
             .then(data => {
                 setDepartments(data.items);
                 setTotalPages(data.totalPages);
-                // Select first department or from URL
+                // Select department from URL or first department, but always fetch full details
                 const params = new URLSearchParams(window.location.search);
                 const id = params.get("id");
                 if (id && data.items.length > 0) {
-                    const found = data.items.find(dep => dep.id === id);
-                    setSelected(found || data.items[0]);
+                    handleSelect(id); // Always fetch by id for full details
                 } else if (data.items.length > 0) {
-                    setSelected(data.items[0]);
-                    // Update URL to reflect first department
-                    window.history.replaceState({}, "", `/departments?id=${data.items[0].id}`);
+                    handleSelect(data.items[0].id!); // Always fetch by id for full details
                 } else {
                     setSelected(null);
+                    setLoading(false);
                 }
             })
-            .finally(() => setLoading(false));
     }, [page, search]);
 
     // Handle search loading state
@@ -186,3 +183,4 @@ const DepartmentsPage: React.FC = () => {
 };
 
 export default DepartmentsPage;
+

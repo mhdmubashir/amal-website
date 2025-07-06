@@ -86,31 +86,80 @@ const Home: React.FC = () => {
         </div>
 
         {/* Welcome Section */}
-        <section id="about" className="py-20 px-4 bg-white">
-          <div className="max-w-4xl mx-auto flex flex-col items-center">
-            {/* Principal Image */}
-            <img
-              src={data.profiles[0]?.image}
-              alt={data.profiles[0]?.name}
-              className="w-40 h-40 rounded-full object-cover shadow-lg mb-6 border-4 border-green-200"
-              style={{ objectPosition: "center top" }}
-            />
-            <h2 className="text-4xl font-bold mb-4 text-gray-900 text-center">Welcome to {data.collegeName}</h2>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed text-center max-w-2xl">
-              An institution founded on the vision of educational equity, empowerment, and excellence.
-              Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans—a testament to our enduring mission to uplift the lives of those who need it the most.
-            </p>
-            <p className="text-lg text-gray-700 leading-relaxed text-center max-w-2xl">
-              We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student—especially those from disadvantaged backgrounds—to dream beyond limitations and rise above socio-economic barriers.
-            </p>
-            {/* Chairman & Manager */}
-            <div className="flex flex-col sm:flex-row gap-8 mt-8 justify-center items-center">
+        <section id="about" className="py-20 px-2 sm:px-4 bg-white">
+          <div className="max-w-6xl mx-auto">
+            {/* Responsive layout */}
+            <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8">
+              {/* Manager & Chairman (left, desktop) */}
+              <div className="hidden md:flex flex-col justify-center items-center w-1/4 gap-8">
+                {/* Manager */}
+                {data.profiles[1] && (
+                  <div className="flex flex-col items-center">
+                    <img
+                      src={data.profiles[1].image}
+                      alt={data.profiles[1].name}
+                      className="w-24 h-24 rounded-full object-cover shadow border-2 border-gray-200 mb-2"
+                    />
+                    <div className="font-semibold text-gray-800">{data.profiles[1].name}</div>
+                    <div className="text-gray-600 text-sm">{data.profiles[1].designation}</div>
+                  </div>
+                )}
+                {/* Chairman */}
+                {data.profiles[2] && (
+                  <div className="flex flex-col items-center mt-8">
+                    <img
+                      src={data.profiles[2].image}
+                      alt={data.profiles[2].name}
+                      className="w-24 h-24 rounded-full object-cover shadow border-2 border-gray-200 mb-2"
+                    />
+                    <div className="font-semibold text-gray-800">{data.profiles[2].name}</div>
+                    <div className="text-gray-600 text-sm">{data.profiles[2].designation}</div>
+                  </div>
+                )}
+              </div>
+              {/* Center Welcome Text */}
+              <div className="flex-1 flex flex-col items-center md:justify-center">
+                {/* Principal (mobile only) */}
+                <div className="flex flex-col items-center md:hidden mb-6">
+                  <img
+                    src={data.profiles[0]?.image}
+                    alt={data.profiles[0]?.name}
+                    className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-green-200 mb-2"
+                    style={{ objectPosition: "center top" }}
+                  />
+                  <div className="font-semibold text-gray-800">{data.profiles[0]?.name}</div>
+                  <div className="text-gray-600 text-sm">{data.profiles[0]?.designation}</div>
+                </div>
+                {/* Welcome Text */}
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900 text-center">Welcome to {data.collegeName}</h2>
+                <p className="text-base sm:text-lg text-gray-700 mb-4 leading-relaxed text-center max-w-2xl mx-auto">
+                  An institution founded on the vision of educational equity, empowerment, and excellence.
+                  Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans—a testament to our enduring mission to uplift the lives of those who need it the most.
+                </p>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
+                  We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student—especially those from disadvantaged backgrounds—to dream beyond limitations and rise above socio-economic barriers.
+                </p>
+              </div>
+              {/* Principal (desktop only, right) */}
+              <div className="hidden md:flex flex-col items-center w-1/4 justify-center">
+                <img
+                  src={data.profiles[0]?.image}
+                  alt={data.profiles[0]?.name}
+                  className="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-green-200 mb-2"
+                  style={{ objectPosition: "center top" }}
+                />
+                <div className="font-semibold text-gray-800">{data.profiles[0]?.name}</div>
+                <div className="text-gray-600 text-sm">{data.profiles[0]?.designation}</div>
+              </div>
+            </div>
+            {/* Manager & Chairman (mobile only, row) */}
+            <div className="flex md:hidden flex-row gap-8 mt-8 justify-center items-center">
               {data.profiles.slice(1, 3).map((profile, idx) => (
                 <div key={idx} className="flex flex-col items-center">
                   <img
                     src={profile.image}
                     alt={profile.name}
-                    className="w-28 h-28 rounded-full object-cover shadow border-2 border-gray-200 mb-2"
+                    className="w-20 h-20 rounded-full object-cover shadow border-2 border-gray-200 mb-2"
                   />
                   <div className="font-semibold text-gray-800">{profile.name}</div>
                   <div className="text-gray-600 text-sm">{profile.designation}</div>
