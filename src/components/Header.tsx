@@ -11,7 +11,7 @@ interface HeaderProps {
   logo: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }) => {
+const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [departments, setDepartments] = useState<DepartmentData[]>([]);
   const [deptDropdown, setDeptDropdown] = useState(false);
@@ -54,35 +54,57 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
 
   return (
     <header className={`sticky top-0 z-20 ${theme.background} shadow-md py-4 px-6 flex justify-between items-center`}>
-      {/* Logo & Name */}
+      {/* Logo */}
       <div className="flex items-center space-x-4">
-        <img src={logo} alt="College Logo" className="h-10" />
+        <a href="/">
+          <img src="/images/amal-auto.webp" alt="College Logo" className="h-10" />
+        </a>
       </div>
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center space-x-6 relative">
         {navLinks.map(link => (
-          <a key={link.label} href={link.href} className={`hover:underline transition active:scale-95 ${theme.text}`}>
+          <a
+            key={link.label}
+            href={link.href}
+            className={`hover:underline transition active:scale-95 ${theme.text} active:scale-90`}
+            tabIndex={0}
+          >
             {link.label}
           </a>
         ))}
         {/* Departments Dropdown */}
         <div
           className="relative"
-          onMouseEnter={() => setDeptDropdown(true)}
-          onMouseLeave={() => setDeptDropdown(false)}
           ref={deptDropdownRef}
         >
           <button
-            className={`flex items-center gap-1 hover:underline transition active:scale-95 ${theme.text}`}
-            onClick={scrollToFooter}
+            className={`flex items-center gap-1 hover:underline transition active:scale-95 ${theme.text} active:scale-90`}
+            onClick={() => setDeptDropdown(v => !v)}
+            onMouseEnter={() => setDeptDropdown(true)}
+            onMouseLeave={() => setDeptDropdown(false)}
+            aria-haspopup="true"
+            aria-expanded={deptDropdown ? true : false}
             type="button"
+            tabIndex={0}
           >
             Departments <ChevronDownIcon className="h-4 w-4" />
           </button>
           {deptDropdown && (
-            <div className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            <div
+              className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+              onMouseEnter={() => setDeptDropdown(true)}
+              onMouseLeave={() => setDeptDropdown(false)}
+            >
               <ul>
+                <li>
+                  <button
+                    className="w-full text-left block px-4 py-2 hover:bg-green-50 text-gray-800 font-semibold"
+                    onClick={scrollToFooter}
+                  >
+                    All Departments
+                  </button>
+                </li>
                 {departments.map(dep => (
                   <li key={dep.id}>
                     <a
@@ -97,7 +119,12 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
             </div>
           )}
         </div>
-        <button onClick={toggleTheme} className={`${theme.button} px-3 py-2 rounded-md text-white flex items-center`}>
+        <button
+          onClick={toggleTheme}
+          className={`${theme.button} px-3 py-2 rounded-md text-white flex items-center active:scale-90 transition`}
+          aria-label="Toggle theme"
+          title="Toggle theme"
+        >
           {theme === themes.light ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
         </button>
       </nav>
@@ -106,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
       <div className="md:hidden flex items-center space-x-2">
         <button
           onClick={toggleTheme}
-          className={`${theme.button} p-2 rounded-md text-white`}
+          className={`${theme.button} p-2 rounded-md text-white active:scale-90 transition`}
           aria-label="Toggle theme"
           title="Toggle theme"
         >
@@ -114,7 +141,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
         </button>
         <button
           onClick={() => setDrawerOpen(!drawerOpen)}
-          className={`${theme.text} p-2`}
+          className={`${theme.text} p-2 active:scale-90 transition`}
           aria-label={drawerOpen ? "Close sidebar" : "Open sidebar"}
           title={drawerOpen ? "Close sidebar" : "Open sidebar"}
         >
@@ -130,11 +157,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
         <div className="flex flex-col h-full">
           {/* Logo at top */}
           <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
-            <img src="/images/amal-auto.webp" alt="Logo" className="h-10" />
+            <a href="/">
+              <img src="/images/amal-auto.webp" alt="Logo" className="h-10" />
+            </a>
             <button
               onClick={() => setDrawerOpen(false)}
               aria-label="Close sidebar"
               title="Close sidebar"
+              className="active:scale-90 transition"
             >
               <XMarkIcon className="h-6 w-6 text-gray-700" />
             </button>
@@ -144,7 +174,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
               <a
                 key={link.label}
                 href={link.href}
-                className="py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium"
+                className="py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium active:scale-95 transition"
                 onClick={() => setDrawerOpen(false)}
               >
                 {link.label}
@@ -153,7 +183,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
             {/* Departments with expandable children */}
             <div className="mt-2">
               <button
-                className="w-full flex items-center justify-between py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium"
+                className="w-full flex items-center justify-between py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium active:scale-95 transition"
                 onClick={scrollToFooter}
                 type="button"
               >
@@ -165,7 +195,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, collegeName, logo }
                   <a
                     key={dep.id}
                     href={`/departments?id=${dep.id}`}
-                    className="block py-1 px-2 rounded hover:bg-green-50 text-gray-700 text-sm"
+                    className="block py-1 px-2 rounded hover:bg-green-50 text-gray-700 text-sm active:scale-95 transition"
                     onClick={() => setDrawerOpen(false)}
                   >
                     {dep.depName}

@@ -4,7 +4,6 @@ import AnnouncementSlider from '../components/AnnouncementSlider';
 import EventCard from '../components/EventCard';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import ProfileCard from '../components/ProfileCard';
 import StaffAchievementCard from '../components/StaffAchievementCard';
 import StudentAchievementCard from '../components/StudentAchievementCard';
 import { useTheme } from '../context/ThemeContext';
@@ -88,20 +87,34 @@ const Home: React.FC = () => {
 
         {/* Welcome Section */}
         <section id="about" className="py-20 px-4 bg-white">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6 text-gray-900">Welcome to {data.collegeName}</h2>
-              <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                An institution founded on the vision of educational equity, empowerment, and excellence.
-                Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans—a testament to our enduring mission to uplift the lives of those who need it the most.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student—especially those from disadvantaged backgrounds—to dream beyond limitations and rise above socio-economic barriers.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {data.profiles.map((profile, index) => (
-                <ProfileCard key={index} profile={profile} theme={theme} />
+          <div className="max-w-4xl mx-auto flex flex-col items-center">
+            {/* Principal Image */}
+            <img
+              src={data.profiles[0]?.image}
+              alt={data.profiles[0]?.name}
+              className="w-40 h-40 rounded-full object-cover shadow-lg mb-6 border-4 border-green-200"
+              style={{ objectPosition: "center top" }}
+            />
+            <h2 className="text-4xl font-bold mb-4 text-gray-900 text-center">Welcome to {data.collegeName}</h2>
+            <p className="text-lg text-gray-700 mb-4 leading-relaxed text-center max-w-2xl">
+              An institution founded on the vision of educational equity, empowerment, and excellence.
+              Since its establishment in 2005 by the Nilambur Muslim Orphanage Committee under the visionary leadership of Sri PV Abdul Wahab, Amal College has stood as a beacon of hope for underserved and marginalized communities. As a recognized Minority Educational Institution, we take immense pride in our commitment to inclusive education, with 20% of our seats specially reserved for orphans—a testament to our enduring mission to uplift the lives of those who need it the most.
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed text-center max-w-2xl">
+              We believe that higher education is not just about acquiring knowledge, but about shaping character, nurturing potential, and transforming lives. At Amal College, we are dedicated to fostering a learning community that excels in intellectual, moral, and social dimensions. With a vibrant academic environment, state-of-the-art facilities, and a passionate team of educators, we aim to empower every student—especially those from disadvantaged backgrounds—to dream beyond limitations and rise above socio-economic barriers.
+            </p>
+            {/* Chairman & Manager */}
+            <div className="flex flex-col sm:flex-row gap-8 mt-8 justify-center items-center">
+              {data.profiles.slice(1, 3).map((profile, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  <img
+                    src={profile.image}
+                    alt={profile.name}
+                    className="w-28 h-28 rounded-full object-cover shadow border-2 border-gray-200 mb-2"
+                  />
+                  <div className="font-semibold text-gray-800">{profile.name}</div>
+                  <div className="text-gray-600 text-sm">{profile.designation}</div>
+                </div>
               ))}
             </div>
           </div>

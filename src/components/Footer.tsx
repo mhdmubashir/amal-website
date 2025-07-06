@@ -12,7 +12,7 @@ const Footer: React.FC<FooterProps> = ({ theme, footerData }) => {
     <footer className={`${theme.footer} py-12 px-6 text-white`}>
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <img src={footerData.logo} alt="College Logo" className="h-16 mb-4" />
+          <img src="/images/amal-auto.webp" alt="College Logo" className="h-16 mb-4" />
           <p>{footerData.address}</p>
         </div>
         <div>
@@ -32,18 +32,18 @@ const Footer: React.FC<FooterProps> = ({ theme, footerData }) => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
           <p>{footerData.contact}</p>
-          {/* Location Card */}
+          {/* Location Map */}
           <div className="mt-4">
-            <div className="rounded-lg bg-white/10 border border-white/20 p-4 mb-4 flex flex-col items-start">
-              <span className="font-semibold text-white mb-2">Location</span>
-              <a
-                href={footerData.location}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full rounded bg-white/20 px-3 py-2 text-white hover:bg-white/30 transition text-sm break-all"
-              >
-                View on Map
-              </a>
+            <div className="rounded-lg bg-white/10 border border-white/20 p-0 mb-4 flex flex-col items-start overflow-hidden">
+              <span className="font-semibold text-white mb-2 px-4 pt-4">Location</span>
+              <iframe
+                src={footerData.location}
+                className="w-full h-40 border-0"
+                style={{ minHeight: 120 }}
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Amal College Location"
+              ></iframe>
             </div>
           </div>
           <div className="flex space-x-4 mt-4">
