@@ -10,7 +10,7 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ theme, footerData }) => {
   return (
     <footer
-      className="py-12 px-6 text-white"
+      className="py-12 px-6 text-gray-800"
       style={{
         background: 'linear-gradient(90deg, #ffffff 0%, #d1fae5 100%)',
       }}
@@ -89,6 +89,17 @@ const Footer: React.FC<FooterProps> = ({ theme, footerData }) => {
             allowFullScreen
           ></iframe>
         </div>
+      </div>
+      <div className="mt-10 text-center text-sm text-gray-500">
+        &copy; {new Date().getFullYear()}{" "}
+        <a
+          href="https://mhdmubashir.github.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-green-700"
+        >
+          Muhammed Mubashir
+        </a>
       </div>
     </footer>
   );

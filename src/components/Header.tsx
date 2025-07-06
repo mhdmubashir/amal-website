@@ -1,4 +1,5 @@
 import { AcademicCapIcon, Bars3Icon, BuildingLibraryIcon, CalendarDaysIcon, ChevronDownIcon, MoonIcon, SunIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { departmentService } from '../services/department/department_service';
 import { Theme, themes } from '../styles/theme';
@@ -15,15 +16,27 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [departments, setDepartments] = useState<DepartmentData[]>([]);
   const [deptDropdown, setDeptDropdown] = useState(false);
+  const [mobileDeptOpen, setMobileDeptOpen] = useState(false);
   const deptDropdownRef = useRef<HTMLDivElement>(null);
 
   // Track if dropdown should stay open due to click
   const [deptDropdownPinned, setDeptDropdownPinned] = useState(false);
+  const [selectedDeptId, setSelectedDeptId] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     departmentService.getDepartments({ limit: 100 })
       .then(data => setDepartments(data.items));
   }, []);
+
+  // Update selectedDeptId from URL
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      setSelectedDeptId(id);
+    }
+  }, [typeof window !== "undefined" ? window.location.search : ""]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -113,7 +126,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               <ul>
                 <li>
                   <button
-                    className="w-full text-left block px-4 py-2 bg-green-50 hover:bg-green-100 rounded-md text-gray-800 font-semibold transition active:bg-green-200"
+                    className={`w-full text-left block px-4 py-2 bg-green-50 hover:bg-green-100 rounded-md text-gray-800 font-semibold transition active:bg-green-200`}
                     onClick={() => {
                       scrollToFooter();
                       setDeptDropdown(false);
@@ -127,10 +140,12 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
                   <li key={dep.id}>
                     <a
                       href={`/departments?id=${dep.id}`}
-                      className="block px-4 py-2 my-1 bg-gray-50 hover:bg-green-100 rounded-md text-gray-800 transition active:bg-green-200"
+                      className={`block px-4 py-2 my-1 rounded-md text-gray-800 transition active:bg-green-200
+                        ${selectedDeptId === dep.id ? "bg-gray-200 font-semibold" : "bg-gray-50 hover:bg-green-100"}`}
                       onClick={() => {
                         setDeptDropdown(false);
                         setDeptDropdownPinned(false);
+                        setSelectedDeptId(dep.id || null);
                       }}
                     >
                       {dep.depName}
@@ -207,25 +222,31 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             <div className="mt-2">
               <button
                 className="w-full flex items-center justify-between py-2 px-2 rounded hover:bg-green-100 text-gray-800 font-medium active:scale-95 transition"
-                onClick={scrollToFooter}
+                onClick={() => setMobileDeptOpen(v => !v)}
                 type="button"
               >
                 <BuildingLibraryIcon className="h-5 w-5 mr-2" />
                 Departments
                 <ChevronDownIcon className="h-4 w-4" />
               </button>
-              <div className="pl-4 mt-1">
-                {departments.map(dep => (
-                  <a
-                    key={dep.id}
-                    href={`/departments?id=${dep.id}`}
-                    className="block py-1 px-2 rounded hover:bg-green-50 text-gray-700 text-sm active:scale-95 transition"
-                    onClick={() => setDrawerOpen(false)}
-                  >
-                    {dep.depName}
-                  </a>
-                ))}
-              </div>
+              {mobileDeptOpen && (
+                <div className="pl-4 mt-1">
+                  {departments.map(dep => (
+                    <a
+                      key={dep.id}
+                      href={`/departments?id=${dep.id}`}
+                      className={`block py-1 px-2 rounded text-gray-700 text-sm active:scale-95 transition
+                        ${selectedDeptId === dep.id ? "bg-gray-200 font-semibold" : "hover:bg-green-50"}`}
+                      onClick={() => {
+                        setDrawerOpen(false);
+                        setSelectedDeptId(dep.id || null);
+                      }}
+                    >
+                      {dep.depName}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </nav>
         </div>
